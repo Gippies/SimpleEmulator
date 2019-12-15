@@ -1,0 +1,11 @@
+from settings import BIT_SIZE
+
+
+def convert_num_to_bit_list(a):
+    if a > 2 ** BIT_SIZE - 1:
+        raise ValueError("Error, tried to convert a number too large for the current BIT_SIZE")
+    return [int(x) for x in f'{a:0{BIT_SIZE}b}']
+
+
+def get_zero_bit_list():
+    return [0 for _ in range(0, BIT_SIZE)]
