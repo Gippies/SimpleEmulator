@@ -42,11 +42,12 @@ def subtract_bit_list(a_list, b_list):
 
 
 def equal_zero_bit_list(a_list):
+    # TODO: This can be simplified to just check for zeros
     check_bit_list_length(a_list)
     return gate_and_bit_list_into_one(gate_not_bit_list(a_list))
 
 
-def bit_list_less_than_zero(a_list):
+def is_negative_bit_list(a_list):
     """
     If the most significant bit is 1, then the binary number is negative
     """
