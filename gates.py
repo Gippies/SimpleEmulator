@@ -31,11 +31,10 @@ def gate_and_bit_list(a_list):
     """
     ANDs all the values together in an a_list
     """
-    if len(a_list) == 1:
-        return a_list[0]
-    else:
-        half = len(a_list) // 2
-        return gate_and(gate_and_bit_list(a_list[:half]), gate_and_bit_list(a_list[half:]))
+    answer = a_list[0]
+    for i in range(1, len(a_list)):
+        answer = gate_and(answer, a_list[i])
+    return answer
 
 
 def gate_or(a, b):
