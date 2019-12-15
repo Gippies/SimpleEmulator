@@ -1,6 +1,8 @@
 from checkers import check_is_binary, check_bit_list_length
 from gates import gate_not, gate_and
+from plumbing import switch, select_bit_list
 from settings import BIT_SIZE
+from utils import convert_num_to_bit_list
 
 """
 Since memory requires a loop in logic gates (which is not possible in programming),
@@ -43,3 +45,51 @@ class Register:
         for i in range(len(d_list)):
             flipflop_value_list.append(self.flipflop_list[i].do_flipflop(st, d_list[i], cl))
         return flipflop_value_list
+
+
+class RAM:
+    def __init__(self):
+        self.register_list = []
+        for i in range(0, 2 ** BIT_SIZE):
+            self.register_list.append(Register())
+
+    def _get_recursive_switch(self, address_bit_list, st):
+        if len(address_bit_list) == 1:
+            result_list = []
+            c_1, c_0 = switch(address_bit_list[0], st)
+            result_list.append(c_1)
+            result_list.append(c_0)
+            return result_list
+        else:
+            c_1, c_0 = switch(address_bit_list[0], st)
+            temp_list_1 = self._get_recursive_switch(address_bit_list[1:], c_1)
+            temp_list_0 = self._get_recursive_switch(address_bit_list[1:], c_0)
+            temp_list_1.extend(temp_list_0)
+            return temp_list_1
+
+    def _get_recursive_select(self, address_bit_list, register_result_list):
+        # TODO: This function is broken, everything else works. FIX IT!!!
+        if len(address_bit_list) == 1:
+            # TODO: register_result_list doesn't contain the correct values here.
+            return select_bit_list(address_bit_list[0], register_result_list[0], register_result_list[1])
+        else:
+            half = len(register_result_list) // 2
+            return select_bit_list(address_bit_list[0], self._get_recursive_select(address_bit_list[1:], register_result_list[half:]), self._get_recursive_select(address_bit_list[1:], register_result_list[:half]))
+
+    def do_ram(self, address_bit_list, st, d_list, cl):
+        switched_address_list = self._get_recursive_switch(address_bit_list, st)
+        for i in range(0, len(switched_address_list)):
+            if switched_address_list[i] != 0:
+                print(f'Switched Address List is {switched_address_list[i]} at {i}')
+        register_result_list = []
+        for i in range(0, len(self.register_list)):
+            register_result_list.append(self.register_list[i].do_register(switched_address_list[i], d_list, cl))
+        return self._get_recursive_select(address_bit_list, register_result_list)
+
+
+my_ram = RAM()
+print(my_ram.do_ram(convert_num_to_bit_list(65535), 0, convert_num_to_bit_list(31), 0))
+print(my_ram.do_ram(convert_num_to_bit_list(65535), 1, convert_num_to_bit_list(31), 0))
+print(my_ram.do_ram(convert_num_to_bit_list(65535), 0, convert_num_to_bit_list(31), 0))
+print(my_ram.do_ram(convert_num_to_bit_list(65535), 0, convert_num_to_bit_list(31), 1))
+print(my_ram.do_ram(convert_num_to_bit_list(65535), 0, convert_num_to_bit_list(31), 0))
