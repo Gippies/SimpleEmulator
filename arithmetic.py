@@ -41,7 +41,7 @@ def subtract_bit_list(a_list, b_list):
     return multi_adder(a_list, negative_b_list, 0)
 
 
-def bit_list_equal_zero(a_list):
+def equal_zero_bit_list(a_list):
     check_bit_list_length(a_list)
     return gate_and_bit_list(gate_not_bit_list(a_list))
 
