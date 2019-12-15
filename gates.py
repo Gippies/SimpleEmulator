@@ -24,7 +24,18 @@ def gate_and(a, b):
     Returns AND of two bits.
     """
     check_is_binary(a, b)
-    return a and b
+    return int(a and b)
+
+
+def gate_and_bit_list(a_list):
+    """
+    ANDs all the values together in an a_list
+    """
+    if len(a_list) == 1:
+        return a_list[0]
+    else:
+        half = len(a_list) // 2
+        return gate_and(gate_and_bit_list(a_list[:half]), gate_and_bit_list(a_list[half:]))
 
 
 def gate_or(a, b):
@@ -32,7 +43,7 @@ def gate_or(a, b):
     Returns OR of two bits.
     """
     check_is_binary(a, b)
-    return a or b
+    return int(a or b)
 
 
 def gate_xor(a, b):
@@ -40,4 +51,4 @@ def gate_xor(a, b):
     Returns XOR of two bits.
     """
     check_is_binary(a, b)
-    return a ^ b
+    return int(a ^ b)
