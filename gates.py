@@ -7,7 +7,7 @@ def gate_not(a):
 
 
 def gate_not_bit_list(a_list):
-    check_bit_list_length([a_list])
+    check_bit_list_length(a_list)
     return [gate_not(x) for x in a_list]
 
 

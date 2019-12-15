@@ -1,5 +1,5 @@
 from checkers import check_bit_list_length
-from gates import gate_and, gate_xor, gate_or
+from gates import gate_and, gate_xor, gate_or, gate_not_bit_list
 from utils import convert_num_to_bit_list
 
 
@@ -31,3 +31,11 @@ def multi_adder(a_list, b_list, c):
 
 def increment_bit_list(a_list):
     return multi_adder(a_list, convert_num_to_bit_list(1), 0)
+
+
+def subtract_bit_list(a_list, b_list):
+    """
+    Does a - b
+    """
+    negative_b_list = increment_bit_list(gate_not_bit_list(b_list))
+    return multi_adder(a_list, negative_b_list, 0)
