@@ -2,6 +2,9 @@ from settings import BIT_SIZE
 
 
 def convert_num_to_bit_list(a):
+    """
+    Converts an integer to a bit_list, highest bit at 0 e.g. 10 -> [0, ..., 0, 1, 0, 1, 0]
+    """
     if a > 2 ** BIT_SIZE - 1:
         raise ValueError("Error, tried to convert a number too large for the current BIT_SIZE")
     return [int(x) for x in f'{a:0{BIT_SIZE}b}']
