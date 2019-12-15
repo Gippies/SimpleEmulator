@@ -1,4 +1,4 @@
-from checkers import check_bit_list_length
+from checkers import check_bit_list_length, check_is_binary
 from gates import gate_and, gate_xor, gate_or, gate_not_bit_list, gate_and_bit_list
 from utils import convert_num_to_bit_list
 
@@ -44,3 +44,11 @@ def subtract_bit_list(a_list, b_list):
 def bit_list_equal_zero(a_list):
     check_bit_list_length(a_list)
     return gate_and_bit_list(gate_not_bit_list(a_list))
+
+
+def bit_list_less_than_zero(a_list):
+    """
+    If the most significant bit is 1, then the binary number is negative
+    """
+    check_is_binary(a_list[0])
+    return a_list[0]
