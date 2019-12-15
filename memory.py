@@ -2,7 +2,6 @@ from checkers import check_is_binary, check_bit_list_length
 from gates import gate_not, gate_and
 from plumbing import switch, select_bit_list
 from settings import BIT_SIZE
-from utils import convert_num_to_bit_list
 
 """
 Since memory requires a loop in logic gates (which is not possible in programming),

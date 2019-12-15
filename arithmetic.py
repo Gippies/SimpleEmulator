@@ -1,5 +1,5 @@
 from checkers import check_bit_list_length, check_is_binary
-from gates import gate_and, gate_xor, gate_or, gate_not_bit_list, gate_and_bit_list
+from gates import gate_and, gate_xor, gate_or, gate_not_bit_list, gate_and_bit_list_into_one
 from utils import convert_num_to_bit_list
 
 
@@ -16,7 +16,7 @@ def full_adder(a, b, c):
     return high, low
 
 
-def multi_adder(a_list, b_list, c):
+def multi_adder(a_list, b_list, c=0):
     check_bit_list_length(a_list, b_list)
 
     s_list = []
@@ -30,7 +30,7 @@ def multi_adder(a_list, b_list, c):
 
 
 def increment_bit_list(a_list):
-    return multi_adder(a_list, convert_num_to_bit_list(1), 0)
+    return multi_adder(a_list, convert_num_to_bit_list(1))
 
 
 def subtract_bit_list(a_list, b_list):
@@ -38,12 +38,12 @@ def subtract_bit_list(a_list, b_list):
     Does a - b
     """
     negative_b_list = increment_bit_list(gate_not_bit_list(b_list))
-    return multi_adder(a_list, negative_b_list, 0)
+    return multi_adder(a_list, negative_b_list)
 
 
 def equal_zero_bit_list(a_list):
     check_bit_list_length(a_list)
-    return gate_and_bit_list(gate_not_bit_list(a_list))
+    return gate_and_bit_list_into_one(gate_not_bit_list(a_list))
 
 
 def bit_list_less_than_zero(a_list):
