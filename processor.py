@@ -22,3 +22,20 @@ def condition(lt, eq, gt, x_list):
     is_x_neg = is_negative_bit_list(x_list)
     is_x_zero = equal_zero_bit_list(x_list)
     return gate_or(gate_or(gate_and(lt, is_x_neg), gate_and(eq, is_x_zero)), gate_and(gt, gate_and(gate_not(is_x_neg), gate_not(is_x_zero))))
+
+
+def instruction_decoder(x_list):
+    ci = x_list[0]
+    w = select_bit_list(ci, get_zero_bit_list(), x_list)
+    ci_select = select_bit_list(ci, x_list, get_zero_bit_list())
+
+    reverse_ci_select = ci_select[::-1]
+    temp_a = reverse_ci_select[5]
+
+    a = gate_or(gate_not(ci), temp_a)
+    return (
+        reverse_ci_select[12], reverse_ci_select[11], reverse_ci_select[10],
+        reverse_ci_select[9], reverse_ci_select[8], reverse_ci_select[7],
+        reverse_ci_select[6], a, reverse_ci_select[4], reverse_ci_select[3],
+        reverse_ci_select[2], reverse_ci_select[1], reverse_ci_select[0], w
+    )
