@@ -1,5 +1,7 @@
 from arithmetic import multi_adder, is_negative_bit_list, equal_zero_bit_list
+from checkers import check_is_binary
 from gates import gate_not_bit_list, gate_and_bit_lists, gate_or, gate_and, gate_not
+from memory import CombinedMemory
 from plumbing import select_bit_list
 from utils import get_zero_bit_list
 
@@ -34,8 +36,32 @@ def instruction_decoder(x_list):
 
     a = gate_or(gate_not(ci), temp_a)
     return (
-        reverse_ci_select[12], reverse_ci_select[11], reverse_ci_select[10],
+        ci, reverse_ci_select[12], reverse_ci_select[11], reverse_ci_select[10],
         reverse_ci_select[9], reverse_ci_select[8], reverse_ci_select[7],
         reverse_ci_select[6], a, reverse_ci_select[4], reverse_ci_select[3],
         reverse_ci_select[2], reverse_ci_select[1], reverse_ci_select[0], w
     )
+
+
+class ControlUnit:
+    def __init__(self):
+        self.memory = CombinedMemory()
+
+    def do_control_unit(self, i_list, cl):
+        # TODO: This is currently horrendously inefficient. Should be improved
+        ci, sm, zx, nx, zy, ny, f, no, a, d, a_star, gt, eq, lt, x_list = instruction_decoder(i_list)
+        check_is_binary(ci)
+
+        if ci == 1:
+            a_register_value, d_register_value, a_ram_value = self.memory.do_combined_memory(0, 0, 0, x_list, cl)
+            y_list = select_bit_list(sm, a_ram_value, a_register_value)
+            alu_result = alu(zx, nx, zy, ny, f, no, d_register_value, y_list)
+            a_register_value, d_register_value, a_ram_value = self.memory.do_combined_memory(a, d, a_star, alu_result, cl)
+            j = condition(lt, eq, gt, alu_result)
+            return j, a_register_value
+        else:
+            a_register_value, d_register_value, a_ram_value = self.memory.do_combined_memory(a, d, a_star, x_list, cl)
+            y_list = select_bit_list(sm, a_ram_value, a_register_value)
+            alu_result = alu(zx, nx, zy, ny, f, no, d_register_value, y_list)
+            j = condition(lt, eq, gt, alu_result)
+            return j, a_register_value
