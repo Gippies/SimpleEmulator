@@ -81,3 +81,14 @@ class RAM:
         for i in range(0, len(self.register_list)):
             register_result_list.append(self.register_list[i].do_register(stored_address_list[i], d_list, cl))
         return self._get_recursive_select(address_bit_list, register_result_list)
+
+
+class CombinedMemory:
+    def __init__(self):
+        self.a_register = Register()
+        self.d_register = Register()
+        self.ram = RAM()
+
+    def do_combined_memory(self, a, d, a_star, x_list, cl):
+        new_a_register_list = self.a_register.do_register(a, x_list, cl)
+        return new_a_register_list, self.d_register.do_register(d, x_list, cl), self.ram.do_ram(new_a_register_list, a_star, x_list, cl)
