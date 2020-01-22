@@ -10,6 +10,7 @@ class Computer:
         self.is_running = True
 
     def _run_program_on_control_unit(self, clock):
+        print(f"Current program address: {self.program_current_address}")
         if self.program_current_address >= len(self.program) or self.program_current_address < 0:
             print(f"Reached program address {self.program_current_address} which is outside the allocated program (from 0 to {len(self.program) - 1} inclusive)")
             print(f"Shutting Down Emulator...")
@@ -20,8 +21,7 @@ class Computer:
                 self.program_current_address = convert_bit_list_to_num(a_register_value)
             elif clock == 1:
                 self.program_current_address += 1
-            print(f"Register A value: {a_register_value}")
-            print(f"Current program address: {self.program_current_address}")
+            print(f"Returned register A value: {a_register_value}")
 
     def do_computer(self):
         # Performs one clock cycle
