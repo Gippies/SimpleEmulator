@@ -15,7 +15,6 @@ def gate_nand(a, b):
     """
     Returns NAND of two bits.
     """
-    # TODO: Change all the gates to just use nand
     check_is_binary(a, b)
     return int(not (a and b))
 
