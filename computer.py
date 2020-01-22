@@ -29,11 +29,11 @@ class Computer:
 
     def load_program(self, file_path):
         print("Loading program...")
-        in_file = open(file_path, 'r')
-        for line in in_file:
-            instruction_bit_list = []
-            for c in line:
-                if c != '\n':
-                    instruction_bit_list.append(int(c))
-            self.program.append(instruction_bit_list)
-        print("Program Loaded")
+        with open(file_path, 'r') as in_file:
+            for line in in_file:
+                instruction_bit_list = []
+                for c in line:
+                    if c != '\n':
+                        instruction_bit_list.append(int(c))
+                self.program.append(instruction_bit_list)
+        print("Program Loaded, Executing...")
