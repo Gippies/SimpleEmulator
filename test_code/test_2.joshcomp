@@ -1,0 +1,3 @@
+0000000000000101    # Sets the A register to 5
+1110110000010000    # Copies the value from the A register to the D register
+1110000010010000    # Adds the A register and the D register and stores the answer in the D register

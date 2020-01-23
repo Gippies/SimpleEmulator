@@ -1,4 +1,4 @@
-1110011111010000
-1110110000010000
-0000000000101010
-1110001100000010
+1110011111010000    # Increments the D register
+1110110000010000    # Copies the value from the A register to the D register
+0000000000101010    # Sets the A register to 42
+1110001100000010    # Jumps if the D register is 0

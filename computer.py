@@ -11,6 +11,7 @@ class Computer:
 
     def _run_program_on_control_unit(self, clock):
         print(f"Current program address: {self.program_current_address}")
+        print(f"Current clock value: {clock}")
         if self.program_current_address >= len(self.program) or self.program_current_address < 0:
             print(f"Reached program address {self.program_current_address} which is outside the allocated program (from 0 to {len(self.program) - 1} inclusive)")
             print(f"Shutting Down Emulator...")
@@ -31,8 +32,8 @@ class Computer:
             raise ValueError("Error, tried to run the computer without a program loaded")
         print("Executing program...")
         while self.is_running:
-            self._run_program_on_control_unit(1)
             self._run_program_on_control_unit(0)
+            self._run_program_on_control_unit(1)
 
     def load_program(self, file_path):
         print("Loading program...")
@@ -40,7 +41,7 @@ class Computer:
             for line in in_file:
                 instruction_bit_list = []
                 for c in line:
-                    if c != '\n':
+                    if c == '0' or c == '1':
                         instruction_bit_list.append(int(c))
                 self.program.append(convert_bit_list_to_num(instruction_bit_list))
         print("Program loaded")
