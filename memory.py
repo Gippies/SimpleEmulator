@@ -1,86 +1,35 @@
-from checkers import check_is_binary, check_bit_list_length
-from gates import gate_not, gate_and
-from plumbing import switch, select_bit_list
+from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
 from settings import BIT_SIZE
-
-"""
-Since memory requires a loop in logic gates (which is not possible in programming),
-I'm storing the values in actual variables.
-"""
-
-
-class Latch:
-    def __init__(self):
-        self.stored_value = 0
-
-    def do_latch(self, st, d):
-        check_is_binary(st, d)
-        if st == 1:
-            self.stored_value = d
-        return self.stored_value
-
-
-class FlipFlop:
-    def __init__(self):
-        self.latch_1 = Latch()
-        self.latch_2 = Latch()
-
-    def do_flipflop(self, st, d, cl):
-        not_cl = gate_not(cl)
-        st_and = gate_and(st, not_cl)
-        latch_1_value = self.latch_1.do_latch(st_and, d)
-        return self.latch_2.do_latch(cl, latch_1_value)
 
 
 class Register:
     def __init__(self):
-        self.flipflop_list = []
-        for i in range(0, BIT_SIZE):
-            self.flipflop_list.append(FlipFlop())
+        self.internal_value = 0
+        self.output_value = 0
 
-    def do_register(self, st, d_list, cl):
-        check_bit_list_length(d_list)
-        flipflop_value_list = []
-        for i in range(len(d_list)):
-            flipflop_value_list.append(self.flipflop_list[i].do_flipflop(st, d_list[i], cl))
-        return flipflop_value_list
+    def do_register(self, st, d_bit_int, cl):
+        check_bit_int_size(d_bit_int)
+        check_is_binary(st, cl)
+
+        if st == 1 and cl == 0:
+            self.internal_value = d_bit_int
+        elif cl == 1:
+            self.output_value = self.internal_value
+        return self.output_value
 
 
 class RAM:
     def __init__(self):
         print(f"Allocating {2 * 2 ** BIT_SIZE} bytes of RAM...")
+        # Note that the register list should be accessed unsigned values
         self.register_list = []
         for i in range(0, 2 ** BIT_SIZE):
             self.register_list.append(Register())
         print("RAM allocated")
 
-    def _get_recursive_switch(self, address_bit_list, st):
-        if len(address_bit_list) == 1:
-            c_1, c_0 = switch(address_bit_list[0], st)
-            result_list = [c_1, c_0]
-            return result_list
-        else:
-            c_1, c_0 = switch(address_bit_list[0], st)
-            temp_list_1 = self._get_recursive_switch(address_bit_list[1:], c_1)
-            temp_list_1.extend(self._get_recursive_switch(address_bit_list[1:], c_0))
-            return temp_list_1
-
-    def _get_recursive_select(self, address_bit_list, register_result_list):
-        if len(address_bit_list) == 1:
-            return select_bit_list(address_bit_list[0], register_result_list[0], register_result_list[1])
-        else:
-            half = len(register_result_list) // 2
-            return select_bit_list(address_bit_list[0], self._get_recursive_select(address_bit_list[1:], register_result_list[:half]), self._get_recursive_select(address_bit_list[1:], register_result_list[half:]))
-
-    def do_ram(self, address_bit_list, st, d_list, cl):
-        stored_address_list = self._get_recursive_switch(address_bit_list, st)
-        for i in range(0, len(stored_address_list)):
-            if stored_address_list[i] != 0:
-                print(f'Stored Address List is {stored_address_list[i]} at {i}')
-        register_result_list = []
-        for i in range(0, len(self.register_list)):
-            register_result_list.append(self.register_list[i].do_register(stored_address_list[i], d_list, cl))
-        return self._get_recursive_select(address_bit_list, register_result_list)
+    def do_ram(self, address_bit_int, st, d_bit_int, cl):
+        check_unsigned_bit_int_size(address_bit_int)
+        return self.register_list[address_bit_int].do_register(st, d_bit_int, cl)
 
 
 class CombinedMemory:
@@ -89,6 +38,6 @@ class CombinedMemory:
         self.d_register = Register()
         self.ram = RAM()
 
-    def do_combined_memory(self, a, d, a_star, x_list, cl):
-        new_a_register_list = self.a_register.do_register(a, x_list, cl)
-        return new_a_register_list, self.d_register.do_register(d, x_list, cl), self.ram.do_ram(new_a_register_list, a_star, x_list, cl)
+    def do_combined_memory(self, a, d, a_star, x_bit_int, cl):
+        new_a_register_bit_int = self.a_register.do_register(a, x_bit_int, cl)
+        return new_a_register_bit_int, self.d_register.do_register(d, x_bit_int, cl), self.ram.do_ram(new_a_register_bit_int, a_star, x_bit_int, cl)

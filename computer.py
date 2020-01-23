@@ -18,7 +18,7 @@ class Computer:
         else:
             j, a_register_value = self.control_unit.do_control_unit(self.program[self.program_current_address], clock)
             if j == 1 and clock == 1:
-                self.program_current_address = convert_bit_list_to_num(a_register_value)
+                self.program_current_address = a_register_value
             elif clock == 1:
                 self.program_current_address += 1
             print(f"Returned register A value: {a_register_value}")
@@ -40,5 +40,5 @@ class Computer:
                 for c in line:
                     if c != '\n':
                         instruction_bit_list.append(int(c))
-                self.program.append(instruction_bit_list)
+                self.program.append(convert_bit_list_to_num(instruction_bit_list))
         print("Program loaded")

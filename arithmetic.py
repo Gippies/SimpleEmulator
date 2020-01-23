@@ -1,6 +1,6 @@
-from checkers import check_bit_list_length, check_is_binary
-from gates import gate_and, gate_xor, gate_or, gate_not_bit_list, gate_and_bit_list_into_one
-from utils import convert_num_to_bit_list
+from checkers import check_is_binary, check_bit_int_size
+from gates import gate_and, gate_xor, gate_or
+from settings import MAX_BIT_INT, MIN_BIT_INT
 
 
 def half_adder(a, b):
@@ -16,40 +16,32 @@ def full_adder(a, b, c):
     return high, low
 
 
-def multi_adder(a_list, b_list, c=0):
-    check_bit_list_length(a_list, b_list)
+def multi_adder(a_bit_int, b_bit_int, c=0):
+    check_bit_int_size(a_bit_int, b_bit_int)
+    check_is_binary(c)
 
-    s_list = []
-    high = c
-    # A bit list has the highest bit at 0. So need to go in reverse through them. Starts at len - 1 and ends at 0.
-    for i in range(len(a_list) - 1, -1, -1):
-        high, temp_low = full_adder(a_list[i], b_list[i], high)
-        s_list.insert(0, temp_low)
-    # s_list.insert(0, high)  - This is where the last carry would go.
-    return s_list
+    answer = a_bit_int + b_bit_int
+    if answer > MAX_BIT_INT:
+        answer = MIN_BIT_INT + (answer - MAX_BIT_INT - 1)
+    return answer
 
 
-def increment_bit_list(a_list):
-    return multi_adder(a_list, convert_num_to_bit_list(1))
+def increment_bit_int(a_bit_int):
+    return multi_adder(a_bit_int, 1)
 
 
-def subtract_bit_list(a_list, b_list):
-    """
-    Does a - b
-    """
-    negative_b_list = increment_bit_list(gate_not_bit_list(b_list))
-    return multi_adder(a_list, negative_b_list)
+def subtract_bit_ints(a_bit_int, b_bit_int):
+    return multi_adder(a_bit_int, -b_bit_int)
 
 
-def equal_zero_bit_list(a_list):
-    # TODO: This can be simplified to just check for zeros
-    check_bit_list_length(a_list)
-    return gate_and_bit_list_into_one(gate_not_bit_list(a_list))
+def equal_zero_bit_int(a_bit_int):
+    check_bit_int_size(a_bit_int)
+    return int(a_bit_int == 0)
 
 
-def is_negative_bit_list(a_list):
+def is_negative_bit_int(a_bit_int):
     """
     If the most significant bit is 1, then the binary number is negative
     """
-    check_is_binary(a_list[0])
-    return a_list[0]
+    check_bit_int_size(a_bit_int)
+    return int(a_bit_int < 0)

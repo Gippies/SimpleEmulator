@@ -1,4 +1,4 @@
-from checkers import check_bit_list_length, check_is_binary
+from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
 from gates import gate_and, gate_not
 
 
@@ -7,12 +7,16 @@ def select(s, a_1, a_0):
     return a_1 if s == 1 else a_0
 
 
-def select_bit_list(s, a_1_list, a_0_list):
-    check_bit_list_length(a_1_list, a_0_list)
-    result_list = []
-    for i in range(0, len(a_1_list)):
-        result_list.append(select(s, a_1_list[i], a_0_list[i]))
-    return result_list
+def select_bit_int(s, a_1_bit_int, a_0_bit_int):
+    check_bit_int_size(a_1_bit_int, a_0_bit_int)
+    check_is_binary(s)
+    return a_1_bit_int if s == 1 else a_0_bit_int
+
+
+def select_unsigned_bit_int(s, a_1_bit_int, a_0_bit_int):
+    check_unsigned_bit_int_size(a_1_bit_int, a_0_bit_int)
+    check_is_binary(s)
+    return a_1_bit_int if s == 1 else a_0_bit_int
 
 
 def switch(s, a):
