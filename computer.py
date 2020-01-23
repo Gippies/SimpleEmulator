@@ -24,7 +24,7 @@ class Computer:
                 self.program_current_address += 1
             print(f"Returned register A value: {a_register_value}")
             print(f"Returned register D value: {d_register_value}")
-            print(f"Returned RAM value: {a_ram_value}")
+            print(f"Returned RAM value: {a_ram_value}\n")
 
     def do_computer(self):
         # Performs one clock cycle
@@ -33,7 +33,8 @@ class Computer:
         print("Executing program...")
         while self.is_running:
             self._run_program_on_control_unit(0)
-            self._run_program_on_control_unit(1)
+            if self.is_running:
+                self._run_program_on_control_unit(1)
 
     def load_program(self, file_path):
         print("Loading program...")
