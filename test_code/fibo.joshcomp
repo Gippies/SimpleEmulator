@@ -1,0 +1,3 @@
+1110011111001000    # Increment RAM value at address 0
+1110110111100000    # Increment the A register
+1110011111001000    # Increment RAM value at address 1
