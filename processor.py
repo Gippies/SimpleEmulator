@@ -74,10 +74,10 @@ class ControlUnit:
             alu_result = alu(zx, nx, zy, ny, f, no, d_register_value, y_bit_int)
             a_register_value, d_register_value, a_ram_value = self.memory.do_combined_memory(a, d, a_star, alu_result, cl)
             j = condition(lt, eq, gt, alu_result)
-            return j, a_register_value
+            return j, a_register_value, d_register_value, a_ram_value
         else:
             a_register_value, d_register_value, a_ram_value = self.memory.do_combined_memory(a, d, a_star, x_bit_int, cl)
             y_bit_int = select_bit_int(sm, a_ram_value, a_register_value)
             alu_result = alu(zx, nx, zy, ny, f, no, d_register_value, y_bit_int)
             j = condition(lt, eq, gt, alu_result)
-            return j, a_register_value
+            return j, a_register_value, d_register_value, a_ram_value

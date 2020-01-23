@@ -16,12 +16,14 @@ class Computer:
             print(f"Shutting Down Emulator...")
             self.is_running = False
         else:
-            j, a_register_value = self.control_unit.do_control_unit(self.program[self.program_current_address], clock)
+            j, a_register_value, d_register_value, a_ram_value = self.control_unit.do_control_unit(self.program[self.program_current_address], clock)
             if j == 1 and clock == 1:
                 self.program_current_address = a_register_value
             elif clock == 1:
                 self.program_current_address += 1
             print(f"Returned register A value: {a_register_value}")
+            print(f"Returned register D value: {d_register_value}")
+            print(f"Returned RAM value: {a_ram_value}")
 
     def do_computer(self):
         # Performs one clock cycle
