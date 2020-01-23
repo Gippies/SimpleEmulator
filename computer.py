@@ -1,4 +1,5 @@
 from processor import ControlUnit
+from settings import CLOCK_STEP_MODE
 from utils import convert_bit_list_to_num
 
 
@@ -33,6 +34,8 @@ class Computer:
             raise ValueError("Error, tried to run the computer without a program loaded")
         print("Executing program...")
         while self.is_running:
+            if CLOCK_STEP_MODE:
+                input("Press Enter to continue...")
             self._run_program_on_control_unit(0)
             if self.is_running:
                 self._run_program_on_control_unit(1)
@@ -47,5 +50,6 @@ class Computer:
                         instruction_bit_list.append(int(c))
                     elif c == '#':
                         break
-                self.program.append(convert_bit_list_to_num(instruction_bit_list))
+                if len(instruction_bit_list) > 0:
+                    self.program.append(convert_bit_list_to_num(instruction_bit_list))
         print("Program loaded")
