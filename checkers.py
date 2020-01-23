@@ -10,13 +10,13 @@ def check_is_binary(*args):
 def check_bit_int_size(*args):
     for num in args:
         if num > MAX_BIT_INT or num < MIN_BIT_INT:
-            raise ValueError(f"Error, variable is: {num} but should be between {MIN_BIT_INT} and {MAX_BIT_INT} for {BIT_SIZE}-bit signed numbers")
+            raise ValueError(f"Error, variable is: {num} but should be between {MIN_BIT_INT} and {MAX_BIT_INT} for {BIT_SIZE}-bit signed integers")
 
 
 def check_unsigned_bit_int_size(*args):
     for num in args:
         if num > MAX_UNSIGNED_BIT_INT or num < 0:
-            raise ValueError(f"Error, variable is: {num} but should be between 0 and {MAX_UNSIGNED_BIT_INT} for {BIT_SIZE}-bit unsigned numbers")
+            raise ValueError(f"Error, variable is: {num} but should be between 0 and {MAX_UNSIGNED_BIT_INT} for {BIT_SIZE}-bit unsigned integers")
 
 
 def check_bit_list_length(*args):

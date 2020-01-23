@@ -40,8 +40,5 @@ def equal_zero_bit_int(a_bit_int):
 
 
 def is_negative_bit_int(a_bit_int):
-    """
-    If the most significant bit is 1, then the binary number is negative
-    """
     check_bit_int_size(a_bit_int)
     return int(a_bit_int < 0)
