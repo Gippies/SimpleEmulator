@@ -26,7 +26,8 @@ class Computer:
             print(f"Returned condition value: {j}")
             print(f"Returned register A value: {a_register_value}")
             print(f"Returned register D value: {d_register_value}")
-            print(f"Returned RAM value: {a_ram_value}\n")
+            print(f"Returned RAM value: {a_ram_value}")
+            print(f"All RAM values: {self.control_unit.memory.ram}\n")
 
     def do_computer(self):
         # Performs one clock cycle
