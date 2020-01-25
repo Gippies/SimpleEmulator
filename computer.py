@@ -14,7 +14,7 @@ class Computer:
         print(f"Current clock value: {clock}")
         print(f"Current program address: {self.program_current_address}")
         if self.program_current_address >= len(self.program) or self.program_current_address < 0:
-            print(f"Reached program address {self.program_current_address} which is outside the allocated program (from 0 to {len(self.program) - 1} inclusive)")
+            print(f"\nReached program address {self.program_current_address} which is outside the allocated program (from 0 to {len(self.program) - 1} inclusive)")
             print(f"Shutting Down Emulator...")
             self.is_running = False
         else:
