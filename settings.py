@@ -8,3 +8,6 @@ MIN_BIT_INT = -1 * 2 ** (BIT_SIZE - 1)
 
 # CLOCK_STEP_MODE is used for debugging. requires input to continue the program.
 CLOCK_STEP_MODE = False
+
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
