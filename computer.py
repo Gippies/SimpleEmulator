@@ -1,10 +1,12 @@
+from graphics import GraphicComponent
 from processor import ControlUnit
-from settings import CLOCK_STEP_MODE
+from settings import CLOCK_STEP_MODE, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils import convert_bit_list_to_num
 
 
-class Computer:
+class Computer(GraphicComponent):
     def __init__(self):
+        super().__init__('Computer', SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 100, 200, 200)
         self.control_unit = ControlUnit()
         self.program = []
         self.program_current_address = 0
