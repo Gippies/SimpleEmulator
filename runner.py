@@ -1,10 +1,10 @@
-from computer import Computer
+from computer import Computer, Program
 from settings import SCREEN_HEIGHT, SCREEN_WIDTH
 import pyglet
 from pyglet.window import mouse
 
 my_computer = Computer()
-my_computer.load_program('test_code/fibo.joshcomp')
+my_computer.load_program(Program('test_code/fibo.joshcomp'))
 # my_computer.do_computer()
 
 

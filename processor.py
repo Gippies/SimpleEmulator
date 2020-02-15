@@ -1,6 +1,7 @@
 from arithmetic import multi_adder
 from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
 from gates import gate_not_bit_int, gate_and_bit_ints, gate_or, gate_not
+from graphics import GraphicComponent
 from memory import CombinedMemory
 from plumbing import select_bit_int, select_unsigned_bit_int
 from utils import convert_unsigned_int_to_bit_list
@@ -60,8 +61,9 @@ def instruction_decoder(x_bit_int):
     )
 
 
-class ControlUnit:
+class ControlUnit(GraphicComponent):
     def __init__(self):
+        super().__init__('Control Unit', 500, 500)
         self.memory = CombinedMemory()
 
     def do_control_unit(self, i_bit_int, cl):

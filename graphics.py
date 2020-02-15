@@ -1,8 +1,28 @@
 import pyglet
 
+from settings import SCREEN_HEIGHT
+
+
+class GraphicView:
+    def __init__(self, title, sub_components=()):
+        self.title = pyglet.text.Label(title,
+                                       font_name='Times New Roman',
+                                       font_size=12,
+                                       x=10, y=SCREEN_HEIGHT - 10,
+                                       anchor_x='left', anchor_y='top')
+        self.sub_components = sub_components
+
+    def was_clicked(self, x, y):
+        return True
+
+    def draw(self):
+        for c in self.sub_components:
+            c.draw()
+        self.title.draw()
+
 
 class GraphicComponent:
-    def __init__(self, text, x, y, width=100, height=100):
+    def __init__(self, text, x, y, width=150, height=100):
         self.width = width
         self.height = height
         self.x = x
