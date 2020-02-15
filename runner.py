@@ -15,7 +15,7 @@ window = pyglet.window.Window(SCREEN_WIDTH, SCREEN_HEIGHT)
 def on_mouse_press(x, y, button, modifiers):
     if button == mouse.LEFT:
         print(f'The left mouse button was pressed at x: {x}, y: {y}.')
-        print(my_computer.was_clicked(x, y))
+        my_computer.on_click()
 
 
 @window.event

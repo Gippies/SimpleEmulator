@@ -41,6 +41,7 @@ class Computer(GraphicView):
     def __init__(self):
         self.control_unit = ControlUnit()
         self.program = None
+        self.is_first_run = True
         self.is_running = True
         super().__init__('Computer', [self.control_unit])
 
@@ -64,17 +65,23 @@ class Computer(GraphicView):
             print(f"Returned RAM value: {a_ram_value}")
             print(f"All RAM values: {self.control_unit.memory.ram}\n")
 
+    def on_click(self):
+        if CLOCK_STEP_MODE:
+            self.do_computer()
+        else:
+            while self.is_running:
+                self.do_computer()
+
     def do_computer(self):
         # Performs one clock cycle
-        if self.program.num_of_instructions() == 0:
-            raise ValueError("Error, tried to run the computer without a program loaded")
-        print("Executing program...")
-        while self.is_running:
-            if CLOCK_STEP_MODE:
-                input("Press Enter to continue...")
-            self._run_program_on_control_unit(0)
-            if self.is_running:
-                self._run_program_on_control_unit(1)
+        if self.is_first_run:
+            if self.program.num_of_instructions() == 0:
+                raise ValueError("Error, tried to start computer without a program loaded")
+            print("Executing program...")
+            self.is_first_run = False
+        self._run_program_on_control_unit(0)
+        if self.is_running:
+            self._run_program_on_control_unit(1)
 
     def load_program(self, program):
         self.program = program

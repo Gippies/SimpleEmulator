@@ -12,8 +12,9 @@ class GraphicView:
                                        anchor_x='left', anchor_y='top')
         self.sub_components = sub_components
 
-    def was_clicked(self, x, y):
-        return True
+    # Override this to do stuff
+    def on_click(self):
+        pass
 
     def draw(self):
         for c in self.sub_components:
@@ -36,8 +37,9 @@ class GraphicComponent:
     def set_text(self, text):
         self.label.text = text
 
-    def was_clicked(self, x, y):
-        return self.x <= x <= self.x + self.width and self.y <= y <= self.y + self.height
+    # Override this to do stuff
+    def on_click(self):
+        pass
 
     def draw(self):
         pyglet.graphics.draw_indexed(4, pyglet.gl.GL_LINE_LOOP,
