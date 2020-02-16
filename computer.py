@@ -58,7 +58,7 @@ class Computer(GraphicView):
         self.program = None
         self.is_first_run = True
         self.is_running = True
-        super().__init__('Computer', [self.control_unit.memory.a_register, self.control_unit.memory.d_register])
+        super().__init__('Computer', [self.control_unit.memory.a_register, self.control_unit.memory.d_register, self.control_unit.memory.ram])
 
     def _run_program_on_control_unit(self, clock):
         current_address = self.program.get_current_address()

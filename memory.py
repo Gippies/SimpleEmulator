@@ -1,15 +1,15 @@
 from collections import OrderedDict
 
 from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
-from graphics import GraphicComponentWithValues
+from graphics import GraphicComponentWithValues, GraphicComponent
 from settings import SCREEN_WIDTH
 
 
 class Register(GraphicComponentWithValues):
-    def __init__(self, name, x=0, y=0):
+    def __init__(self, name, x=0, y=0, height=100):
         self.internal_value = 0
         self.output_value = 0
-        super().__init__(name, [f'Value: {self.output_value}'], x, y)
+        super().__init__(name, [f'Value: {self.output_value}'], x, y, height=height)
 
     def __str__(self):
         return str(self.output_value)
@@ -29,10 +29,11 @@ class Register(GraphicComponentWithValues):
         return self.output_value
 
 
-class RAM:
+class RAM(GraphicComponent):
     def __init__(self):
         # Note that the register list should be accessed unsigned values
         self.register_dict = OrderedDict()
+        super().__init__('RAM', SCREEN_WIDTH * 3 // 4, 100, height=580, sub_components=[])
 
     def __str__(self):
         register_dict_string = '{'
@@ -47,7 +48,8 @@ class RAM:
     def do_ram(self, address_bit_int, st, d_bit_int, cl):
         check_unsigned_bit_int_size(address_bit_int)
         if address_bit_int not in self.register_dict:
-            self.register_dict[address_bit_int] = Register('Register')
+            self.register_dict[address_bit_int] = Register('Register', self.x, 600 - (40 * address_bit_int), height=40)
+            self.sub_components.append(self.register_dict[address_bit_int])
             self._sort_register_dict()
         return self.register_dict[address_bit_int].do_register(st, d_bit_int, cl)
 
@@ -55,7 +57,7 @@ class RAM:
 class CombinedMemory:
     def __init__(self):
         self.a_register = Register('A Register', SCREEN_WIDTH // 2 - (150 // 2), 500)
-        self.d_register = Register('D Register', SCREEN_WIDTH // 2 - (150 // 2), 300)
+        self.d_register = Register('D Register', SCREEN_WIDTH // 2 - (150 // 2), 400)
         self.ram = RAM()
 
     def do_combined_memory(self, a, d, a_star, x_bit_int, cl):
