@@ -62,9 +62,8 @@ def instruction_decoder(x_bit_int):
     )
 
 
-class ControlUnit(GraphicComponent):
+class ControlUnit():
     def __init__(self):
-        super().__init__('Control Unit', SCREEN_WIDTH // 2 - (150 // 2), 500)
         self.memory = CombinedMemory()
 
     def do_control_unit(self, i_bit_int, cl):

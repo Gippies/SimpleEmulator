@@ -1,10 +1,10 @@
-from graphics import GraphicView, GraphicComponent
+from graphics import GraphicView, GraphicComponent, GraphicComponentWithValues
 from processor import ControlUnit
-from settings import CLOCK_STEP_MODE
+from settings import CLOCK_STEP_MODE, SCREEN_WIDTH
 from utils import convert_bit_list_to_num
 
 
-class Program(GraphicComponent):
+class Program(GraphicComponentWithValues):
     def __init__(self, file_path):
         self.instructions = []
         self.current_address = 0
@@ -20,15 +20,30 @@ class Program(GraphicComponent):
                 if len(instruction_bit_list) > 0:
                     self.instructions.append(convert_bit_list_to_num(instruction_bit_list))
         print("Program loaded")
+        value_texts = []
+        for index, v in enumerate(self.instructions):
+            if index == self.current_address:
+                value_texts.append('->' + str(v))
+            else:
+                value_texts.append(str(v))
+        super().__init__('Program', value_texts, SCREEN_WIDTH // 4, 100, height=580)
+
+    def update_value_label_text(self):
+        for index, v in enumerate(self.instructions):
+            if index == self.current_address:
+                self.value_labels[index].text = '->' + str(v)
+            else:
+                self.value_labels[index].text = str(v)
 
     def get_current_address(self):
         return self.current_address
 
     def set_current_address(self, new_addr):
         self.current_address = new_addr
+        self.update_value_label_text()
 
     def increment_current_address(self):
-        self.current_address += 1
+        self.set_current_address(self.current_address + 1)
 
     def get_current_instruction(self):
         return self.instructions[self.current_address]
@@ -43,7 +58,7 @@ class Computer(GraphicView):
         self.program = None
         self.is_first_run = True
         self.is_running = True
-        super().__init__('Computer', [self.control_unit])
+        super().__init__('Computer', [self.control_unit.memory.a_register, self.control_unit.memory.d_register])
 
     def _run_program_on_control_unit(self, clock):
         current_address = self.program.get_current_address()
@@ -66,11 +81,14 @@ class Computer(GraphicView):
             print(f"All RAM values: {self.control_unit.memory.ram}\n")
 
     def on_click(self):
-        if CLOCK_STEP_MODE:
-            self.do_computer()
-        else:
-            while self.is_running:
+        if self.is_running:
+            if CLOCK_STEP_MODE:
                 self.do_computer()
+            else:
+                while self.is_running:
+                    self.do_computer()
+        else:
+            print("Computer has already terminated.")
 
     def do_computer(self):
         # Performs one clock cycle
@@ -85,3 +103,4 @@ class Computer(GraphicView):
 
     def load_program(self, program):
         self.program = program
+        self.sub_components.append(self.program)

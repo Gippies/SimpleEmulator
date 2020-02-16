@@ -1,15 +1,21 @@
 from collections import OrderedDict
 
 from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
+from graphics import GraphicComponentWithValues
+from settings import SCREEN_WIDTH
 
 
-class Register:
-    def __init__(self):
+class Register(GraphicComponentWithValues):
+    def __init__(self, name, x=0, y=0):
         self.internal_value = 0
         self.output_value = 0
+        super().__init__(name, [f'Value: {self.output_value}'], x, y)
 
     def __str__(self):
         return str(self.output_value)
+
+    def update_value_label_text(self):
+        self.value_labels[0].text = f'Value: {self.output_value}'
 
     def do_register(self, st, d_bit_int, cl):
         check_bit_int_size(d_bit_int)
@@ -19,6 +25,7 @@ class Register:
             self.internal_value = d_bit_int
         elif cl == 1:
             self.output_value = self.internal_value
+        self.update_value_label_text()
         return self.output_value
 
 
@@ -40,15 +47,15 @@ class RAM:
     def do_ram(self, address_bit_int, st, d_bit_int, cl):
         check_unsigned_bit_int_size(address_bit_int)
         if address_bit_int not in self.register_dict:
-            self.register_dict[address_bit_int] = Register()
+            self.register_dict[address_bit_int] = Register('Register')
             self._sort_register_dict()
         return self.register_dict[address_bit_int].do_register(st, d_bit_int, cl)
 
 
 class CombinedMemory:
     def __init__(self):
-        self.a_register = Register()
-        self.d_register = Register()
+        self.a_register = Register('A Register', SCREEN_WIDTH // 2 - (150 // 2), 500)
+        self.d_register = Register('D Register', SCREEN_WIDTH // 2 - (150 // 2), 300)
         self.ram = RAM()
 
     def do_combined_memory(self, a, d, a_star, x_bit_int, cl):
