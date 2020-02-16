@@ -22,18 +22,20 @@ class Program(GraphicComponentWithValues):
         print("Program loaded")
         value_texts = []
         for index, v in enumerate(self.instructions):
+            bin_v = bin(v)[2:]
             if index == self.current_address:
-                value_texts.append('->' + str(v))
+                value_texts.append('->' + bin_v)
             else:
-                value_texts.append(str(v))
+                value_texts.append(bin_v)
         super().__init__('Program', value_texts, SCREEN_WIDTH // 4, 100, height=580)
 
     def update_value_label_text(self):
         for index, v in enumerate(self.instructions):
+            bin_v = bin(v)[2:]
             if index == self.current_address:
-                self.value_labels[index].text = '->' + str(v)
+                self.value_labels[index].text = '->' + bin_v
             else:
-                self.value_labels[index].text = str(v)
+                self.value_labels[index].text = bin_v
 
     def get_current_address(self):
         return self.current_address
