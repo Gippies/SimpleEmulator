@@ -1,5 +1,5 @@
-from checkers import check_is_binary, check_bit_int_size
-from utils import convert_num_to_bit_list
+from simpleemulator.checkers import check_is_binary, check_bit_int_size
+from simpleemulator.utils.conversions import convert_num_to_bit_list
 
 
 def gate_not(a):

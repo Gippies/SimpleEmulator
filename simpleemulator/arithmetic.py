@@ -1,5 +1,5 @@
-from checkers import check_is_binary, check_bit_int_size
-from gates import gate_and, gate_xor, gate_or
+from simpleemulator.checkers import check_is_binary, check_bit_int_size
+from simpleemulator.gates import gate_and, gate_xor, gate_or
 from settings import MAX_BIT_INT, MIN_BIT_INT
 
 

@@ -1,7 +1,7 @@
-from graphics import GraphicView, GraphicComponent, GraphicComponentWithValues
-from processor import ControlUnit
+from simpleemulator.utils.graphics import GraphicView, GraphicComponentWithValues
+from simpleemulator.processor import ControlUnit
 from settings import CLOCK_STEP_MODE, SCREEN_WIDTH
-from utils import convert_bit_list_to_num
+from simpleemulator.utils.conversions import convert_bit_list_to_num
 
 
 class Program(GraphicComponentWithValues):

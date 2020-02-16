@@ -1,4 +1,4 @@
-from checkers import check_bit_list_length, check_is_binary
+from simpleemulator.checkers import check_bit_list_length, check_is_binary
 from settings import BIT_SIZE, MAX_UNSIGNED_BIT_INT, MIN_BIT_INT, MAX_BIT_INT
 
 

@@ -1,11 +1,9 @@
-from arithmetic import multi_adder
-from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
-from gates import gate_not_bit_int, gate_and_bit_ints, gate_or, gate_not
-from graphics import GraphicComponent
-from memory import CombinedMemory
-from plumbing import select_bit_int, select_unsigned_bit_int
-from settings import SCREEN_WIDTH
-from utils import convert_unsigned_int_to_bit_list
+from simpleemulator.arithmetic import multi_adder
+from simpleemulator.checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
+from simpleemulator.gates import gate_not_bit_int, gate_and_bit_ints, gate_or, gate_not
+from simpleemulator.memory import CombinedMemory
+from simpleemulator.plumbing import select_bit_int, select_unsigned_bit_int
+from simpleemulator.utils.conversions import convert_unsigned_int_to_bit_list
 
 
 def u_alu(z, n, d_bit_int):

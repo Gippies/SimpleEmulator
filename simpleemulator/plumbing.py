@@ -1,5 +1,5 @@
-from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
-from gates import gate_and, gate_not
+from simpleemulator.checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
+from simpleemulator.gates import gate_and, gate_not
 
 
 def select(s, a_1, a_0):

@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
-from checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
-from graphics import GraphicComponentWithValues, GraphicComponent
+from simpleemulator.checkers import check_is_binary, check_bit_int_size, check_unsigned_bit_int_size
+from simpleemulator.utils.graphics import GraphicComponentWithValues, GraphicComponent
 from settings import SCREEN_WIDTH
 
 

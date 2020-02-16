@@ -1,4 +1,4 @@
-from computer import Computer, Program
+from simpleemulator.computer import Computer, Program
 from settings import SCREEN_HEIGHT, SCREEN_WIDTH
 import pyglet
 from pyglet.window import mouse
